@@ -22,23 +22,13 @@ export class AppController {
     return uploadedFile.url;
   }
 
-  // @Post('uploads')
-  // @UseInterceptors(FilesInterceptor('files',5))
-  // async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>): Promise<string[]> {
-  //    return await this.cloudinaryService.uploadMultipleFiles(files);
-  // }
-  // @Post('uploads')
-  // @UseInterceptors(FilesInterceptor('files[]', 5))
-  // async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>): Promise<string[]> {
-  //    return await this.cloudinaryService.uploadMultipleFiles(files);
-  // }
   @Post('uploads')
  @UseInterceptors(FilesInterceptor('files'))
  async uploadFile(@UploadedFiles() files): Promise<any> {
     const response = [];
     for (const file of files) {
       const result = await this.cloudinaryService.uploadFile(file);
-      response.push(result);
+      response.push(result.url);
     }
     return response;
  }
